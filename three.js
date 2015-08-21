@@ -1720,7 +1720,13 @@ THREE.Vector3.prototype = {
     // this.x = v.x;
     // this.y = v.y;
     // this.z = v.z;
-    this.vector3d = window.SIMD.Float32x4(v.x, v.y, v.z);
+    // this.vector3d = window.SIMD.Float32x4(v.x, v.y, v.z);
+		// assume v is a window.SIMD.Float32x4 vector
+    if (typeof v.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN COPY FUNCTION!');
+    }
+
+    this.vector3d = v;
 
     return this;
 
@@ -1738,7 +1744,10 @@ THREE.Vector3.prototype = {
     // this.x += v.x;
     // this.y += v.y;
     // this.z += v.z;
-    this.vector3d = window.SIMD.Float32x4.add(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
+    if (typeof v.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN ADD FUNCTION!');
+    }
+    this.vector3d = window.SIMD.Float32x4.add(this.vector3d, v);
 
     return this;
 
@@ -1760,7 +1769,10 @@ THREE.Vector3.prototype = {
     // this.x = a.x + b.x;
     // this.y = a.y + b.y;
     // this.z = a.z + b.z;
-    this.vector3d = window.SIMD.Float32x4.add(window.SIMD.Float32x4(a.x, a.y, a.z), window.SIMD.Float32x4(b.x, b.y, b.z));
+    if (typeof a.x !== 'undefined' || typeof b.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN ADDVECTORS FUNCTION!');
+    }
+    this.vector3d = window.SIMD.Float32x4.add(a, b);
 
     return this;
 
@@ -1778,7 +1790,10 @@ THREE.Vector3.prototype = {
     // this.x -= v.x;
     // this.y -= v.y;
     // this.z -= v.z;
-    this.vector3d = window.SIMD.Float32x4.sub(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
+    if (typeof v.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN SUB FUNCTION!');
+    }
+    this.vector3d = window.SIMD.Float32x4.sub(this.vector3d, v);
 
     return this;
 
@@ -1800,7 +1815,10 @@ THREE.Vector3.prototype = {
     // this.x = a.x - b.x;
     // this.y = a.y - b.y;
     // this.z = a.z - b.z;
-    this.vector3d = window.SIMD.Float32x4.sub(window.SIMD.Float32x4(a.x, a.y, a.z), window.SIMD.Float32x4(b.x, b.y, b.z));
+    if (typeof a.x !== 'undefined' || typeof b.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN subVECTORS FUNCTION!');
+    }
+    this.vector3d = window.SIMD.Float32x4.sub(a, b);
 
     return this;
 
@@ -1818,7 +1836,10 @@ THREE.Vector3.prototype = {
     // this.x *= v.x;
     // this.y *= v.y;
     // this.z *= v.z;
-    this.vector3d = window.SIMD.Float32x4.mul(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
+    if (typeof v.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN multiply FUNCTION!');
+    }
+    this.vector3d = window.SIMD.Float32x4.mul(this.vector3d, v);
 
     return this;
 
@@ -1840,6 +1861,9 @@ THREE.Vector3.prototype = {
     // this.x = a.x * b.x;
     // this.y = a.y * b.y;
     // this.z = a.z * b.z;
+    if (typeof a.x !== 'undefined' || typeof b.x !== 'undefined') {
+      console.log('SOMETHING WILL GO WRONG IN multiplyVectors FUNCTION!');
+    }
     this.vector3d = window.SIMD.Float32x4.mul(window.SIMD.Float32x4(a.x, a.y, a.z), window.SIMD.Float32x4(b.x, b.y, b.z));
 
     return this;
@@ -1896,6 +1920,10 @@ THREE.Vector3.prototype = {
 
     var e = m.elements;
 
+		if (typeof e === 'undefined') {
+			console.log('ERROR IN applyMatrix3');
+		}
+
     var newX = e[0] * x + e[3] * y + e[6] * z;
     var newY = e[1] * x + e[4] * y + e[7] * z;
     var newZ = e[2] * x + e[5] * y + e[8] * z;
@@ -1915,6 +1943,11 @@ THREE.Vector3.prototype = {
     var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     var e = m.elements;
+
+		if (typeof e === 'undefined') {
+			console.log('ERROR IN applyMatrix4');
+		}
+
 
     var newX = e[0] * x + e[4] * y + e[8] * z + e[12];
     var newY = e[1] * x + e[5] * y + e[9] * z + e[13];
@@ -2032,7 +2065,7 @@ THREE.Vector3.prototype = {
 
   divide: function(v) {
 
-    this.vector3d = window.SIMD.Float32x4.div(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
+    this.vector3d = window.SIMD.Float32x4.div(this.vector3d, v);
 
     return this;
 
@@ -2056,7 +2089,7 @@ THREE.Vector3.prototype = {
 
   min: function(v) {
 
-    v = window.SIMD.Float32x4(v.x, v.y, v.z);
+    // v = window.SIMD.Floa t32x4(v.x, v.y, v.z);
     this.vector3d = window.SIMD.Float32x4.minNum(this.vector3d, v);
 
     // if ( this.x > v.x ) {
@@ -2083,7 +2116,7 @@ THREE.Vector3.prototype = {
 
   max: function(v) {
 
-    v = window.SIMD.Float32x4(v.x, v.y, v.z);
+    // v = window.SIMD.Float32x4(v.x, v.y, v.z);
     this.vector3d = window.SIMD.Float32x4.maxNum(this.vector3d, v);
 
     // if ( this.x < v.x ) {
@@ -2112,11 +2145,11 @@ THREE.Vector3.prototype = {
 
     // This function assumes min < max, if this assumption isn't true it will not operate correctly
 
-    var v_max = window.SIMD.Float32x4(max.x, max.y, max.z);
-    this.vector3d = window.SIMD.Float32x4.maxNum(this.vector3d, v_max);
+    // var v_max = window.SIMD.Float32x4(max.x, max.y, max.z);
+    this.vector3d = window.SIMD.Float32x4.maxNum(this.vector3d, max);
 
-    var v_min = window.SIMD.Float32x4(min.x, min.y, min.z);
-    this.vector3d = window.SIMD.Float32x4.minNum(this.vector3d, v_min);
+    // var v_min = window.SIMD.Float32x4(min.x, min.y, min.z);
+    this.vector3d = window.SIMD.Float32x4.minNum(this.vector3d, min);
 
     // if ( this.x < min.x ) {
     //
@@ -2236,7 +2269,7 @@ THREE.Vector3.prototype = {
 
   dot: function(v) {
 
-    var v3 = window.SIMD.Float32x4.mul(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
+    var v3 = window.SIMD.Float32x4.mul(this.vector3d, v);
     var sum = window.SIMD.Float32x4.extractLane(v3, 0) +
 			window.SIMD.Float32x4.extractLane(v3, 1) +
 			window.SIMD.Float32x4.extractLane(v3, 2);
@@ -2296,7 +2329,7 @@ THREE.Vector3.prototype = {
     // this.y += ( v.y - this.y ) * alpha;
     // this.z += ( v.z - this.z ) * alpha;
     var v_alpha = window.SIMD.Float32x4(alpha, alpha, alpha);
-    v = window.SIMD.Float32x4(v.x, v.y, v.z);
+    // v = window.SIMD.Float32x4(v.x, v.y, v.z);
     this.vector3d = window.SIMD.Float32x4.mul(
       window.SIMD.Float32x4.sub(v, this.vector3d),
       v_alpha
@@ -2324,15 +2357,26 @@ THREE.Vector3.prototype = {
     }
 
     // var x = this.x, y = this.y, z = this.z;
-    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
+    // var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    // var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    // var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
-    var newX = y * v.z - z * v.y;
-    var newY = z * v.x - x * v.z;
-    var newZ = x * v.y - y * v.x;
+    // var newX = y * v.z - z * v.y;
+    // var newY = z * v.x - x * v.z;
+    // var newZ = x * v.y - y * v.x;
 
-    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4.sub(
+			window.SIMD.Float32x4.mul(
+        window.SIMD.Float32x4.swizzle(this.vector3d, 1, 2, 0, 3),
+        window.SIMD.Float32x4.swizzle(v, 2, 0, 1, 3)
+      ),
+			window.SIMD.Float32x4.mul(
+        window.SIMD.Float32x4.swizzle(this.vector3d, 2, 0, 1, 3),
+        window.SIMD.Float32x4.swizzle(v, 1, 2, 0, 3)
+      )
+		);
+
+    // this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -2340,18 +2384,29 @@ THREE.Vector3.prototype = {
 
   crossVectors: function(a, b) {
 
-    var ax = a.x,
-      ay = a.y,
-      az = a.z;
-    var bx = b.x,
-      by = b.y,
-      bz = b.z;
+    // var ax = a.x,
+    //   ay = a.y,
+    //   az = a.z;
+    // var bx = b.x,
+    //   by = b.y,
+    //   bz = b.z;
+    //
+    // var newX = ay * bz - az * by;
+    // var newY = az * bx - ax * bz;
+    // var newZ = ax * by - ay * bx;
+    //
+    // this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
-    var newX = ay * bz - az * by;
-    var newY = az * bx - ax * bz;
-    var newZ = ax * by - ay * bx;
-
-    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4.sub(
+			window.SIMD.Float32x4.mul(
+        window.SIMD.Float32x4.swizzle(a, 1, 2, 0, 3),
+        window.SIMD.Float32x4.swizzle(b, 2, 0, 1, 3)
+      ),
+			window.SIMD.Float32x4.mul(
+        window.SIMD.Float32x4.swizzle(a, 2, 0, 1, 3),
+        window.SIMD.Float32x4.swizzle(b, 1, 2, 0, 3)
+      )
+		);
 
     return this;
 
