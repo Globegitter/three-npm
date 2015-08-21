@@ -1636,6 +1636,8 @@ THREE.Vector2.prototype = {
 
 if (typeof SIMD === 'undefined') {
   console.log('CUSTOM SIMD OBJECT!');
+	console.log(SIMD);
+	console.log(window.SIMD);
   var SIMD = {
     Float32x4: function() {}
   };
