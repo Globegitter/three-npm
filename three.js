@@ -1817,6 +1817,9 @@ THREE.Vector3.prototype = {
     // this.z = a.z - b.z;
     if (typeof a.x !== 'undefined' || typeof b.x !== 'undefined') {
       console.log('SOMETHING WILL GO WRONG IN subVECTORS FUNCTION!');
+      console.log(a);
+      console.log(b);
+      throw new Error('check it out you!')
     }
     this.vector3d = window.SIMD.Float32x4.sub(a, b);
 
