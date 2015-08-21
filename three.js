@@ -2548,9 +2548,7 @@ THREE.Vector3.prototype = {
   },
 
   clone: function() {
-    console.log(window.SIMD);
-    console.log(window.SIMD.Float32x4);
-    console.log(window.SIMD.Float32x4.extractLane);
+    // console.log(this);
     var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
     var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
     var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
@@ -10624,64 +10622,64 @@ THREE.GeometryIdCount = 0;
  * @author mrdoob / http://mrdoob.com/
  * @author mikael emtinger / http://gomo.se/
  * @author WestLangley / http://github.com/WestLangley
-*/
+ */
 
-THREE.Camera = function () {
+THREE.Camera = function() {
 
-	THREE.Object3D.call( this );
+  THREE.Object3D.call(this);
 
-	this.type = 'Camera';
+  this.type = 'Camera';
 
-	this.matrixWorldInverse = new THREE.Matrix4();
-	this.projectionMatrix = new THREE.Matrix4();
+  this.matrixWorldInverse = new THREE.Matrix4();
+  this.projectionMatrix = new THREE.Matrix4();
 
 };
 
-THREE.Camera.prototype = Object.create( THREE.Object3D.prototype );
+THREE.Camera.prototype = Object.create(THREE.Object3D.prototype);
 THREE.Camera.prototype.constructor = THREE.Camera;
 
-THREE.Camera.prototype.getWorldDirection = function () {
+THREE.Camera.prototype.getWorldDirection = function() {
 
-	var quaternion = new THREE.Quaternion();
+  var quaternion = new THREE.Quaternion();
 
-	return function ( optionalTarget ) {
+  return function(optionalTarget) {
 
-		var result = optionalTarget || new THREE.Vector3();
+    var result = optionalTarget || new THREE.Vector3();
 
-		this.getWorldQuaternion( quaternion );
+    this.getWorldQuaternion(quaternion);
 
-		return result.set( 0, 0, - 1 ).applyQuaternion( quaternion );
+    return result.set(0, 0, -1).applyQuaternion(quaternion);
 
-	}
-
-}();
-
-THREE.Camera.prototype.lookAt = function () {
-
-	// This routine does not support cameras with rotated and/or translated parent(s)
-
-	var m1 = new THREE.Matrix4();
-
-	return function ( vector ) {
-
-		m1.lookAt( this.position, vector, this.up );
-
-		this.quaternion.setFromRotationMatrix( m1 );
-
-	};
+  };
 
 }();
 
-THREE.Camera.prototype.clone = function ( camera ) {
+THREE.Camera.prototype.lookAt = function() {
 
-	if ( camera === undefined ) camera = new THREE.Camera();
+  // This routine does not support cameras with rotated and/or translated parent(s)
 
-	THREE.Object3D.prototype.clone.call( this, camera );
+  var m1 = new THREE.Matrix4();
 
-	camera.matrixWorldInverse.copy( this.matrixWorldInverse );
-	camera.projectionMatrix.copy( this.projectionMatrix );
+  return function(vector) {
 
-	return camera;
+    m1.lookAt(this.position, vector, this.up);
+
+    this.quaternion.setFromRotationMatrix(m1);
+
+  };
+
+}();
+
+THREE.Camera.prototype.clone = function(camera) {
+
+  if (camera === undefined) camera = new THREE.Camera();
+
+  THREE.Object3D.prototype.clone.call(this, camera);
+
+  camera.matrixWorldInverse.copy(this.matrixWorldInverse);
+  camera.projectionMatrix.copy(this.projectionMatrix);
+
+  return camera;
 };
 
 // File:src/cameras/CubeCamera.js
