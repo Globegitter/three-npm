@@ -2272,7 +2272,7 @@ THREE.Vector3.prototype = {
 
   dot: function(v) {
 
-    var v3 = window.SIMD.Float32x4.mul(this.vector3d, v);
+    var v3 = window.SIMD.Float32x4.mul(this.vector3d, v.vector3d);
     var sum = window.SIMD.Float32x4.extractLane(v3, 0) +
 			window.SIMD.Float32x4.extractLane(v3, 1) +
 			window.SIMD.Float32x4.extractLane(v3, 2);
