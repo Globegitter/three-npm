@@ -2234,7 +2234,7 @@ THREE.Vector3.prototype = {
 
     // return this.x * this.x + this.y * this.y + this.z * this.z;
     // square each value then sum it up
-    var squaredVector = window.SIMD.Float32x4.shiftLeftByScalar(this.vector3d, 1);
+    var squaredVector = window.SIMD.Float32x4.mul(this.vector3d, this.vector3d);
 
     var extract = window.SIMD.Float32x4.extractLane;
 
