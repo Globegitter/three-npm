@@ -1623,7 +1623,7 @@ THREE.Vector2.prototype = {
 
 // File:src/math/Vector3.js
 
-/*global THREE*/
+/*global THREE SIMD*/
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -1635,9 +1635,12 @@ THREE.Vector2.prototype = {
  */
 
 if (typeof SIMD === 'undefined') {
+  console.log('CUSTOM SIMD OBJECT!');
   var SIMD = {
     Float32x4: function() {}
   };
+} else {
+	console.log('Having global SIMD anyway!');
 }
 
 THREE.Vector3 = function(x, y, z) {
@@ -2544,6 +2547,9 @@ THREE.Vector3.prototype = {
   },
 
   clone: function() {
+    console.log(SIMD);
+    console.log(SIMD.Float32x4);
+    console.log(SIMD.Float32x4.extractLane);
     var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
     var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
     var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
