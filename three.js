@@ -1623,7 +1623,7 @@ THREE.Vector2.prototype = {
 
 // File:src/math/Vector3.js
 
-/*global THREE SIMD*/
+/*global THREE*/
 
 /**
  * @author mrdoob / http://mrdoob.com/
@@ -1634,15 +1634,14 @@ THREE.Vector2.prototype = {
  * @author WestLangley / http://github.com/WestLangley
  */
 
-if (typeof SIMD === 'undefined') {
-  console.log('CUSTOM SIMD OBJECT!');
-	console.log(SIMD);
-	console.log(window.SIMD);
-  var SIMD = {
+if (typeof window.SIMD === 'undefined') {
+  console.log('CUSTOM window.SIMD OBJECT!');
+  console.log(window.SIMD);
+  window.SIMD = {
     Float32x4: function() {}
   };
 } else {
-	console.log('Having global SIMD anyway!');
+  console.log('Having global window.SIMD anyway!');
 }
 
 THREE.Vector3 = function(x, y, z) {
@@ -1650,7 +1649,7 @@ THREE.Vector3 = function(x, y, z) {
   this.x = x || 0;
   this.y = y || 0;
   this.z = z || 0;
-  this.vector3d = SIMD.Float32x4(x, y, z);
+  this.vector3d = window.SIMD.Float32x4(x, y, z);
 
 };
 
@@ -1663,7 +1662,7 @@ THREE.Vector3.prototype = {
     // this.x = x;
     // this.y = y;
     // this.z = z;
-    this.vector3d = SIMD.Float32x4(x, y, z);
+    this.vector3d = window.SIMD.Float32x4(x, y, z);
 
     return this;
 
@@ -1672,7 +1671,7 @@ THREE.Vector3.prototype = {
   setX: function(x) {
 
     // this.x = x;
-    this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, 0, x);
+    this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, 0, x);
 
     return this;
 
@@ -1681,7 +1680,7 @@ THREE.Vector3.prototype = {
   setY: function(y) {
 
     // this.y = y;
-    this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, 1, y);
+    this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, 1, y);
 
     return this;
 
@@ -1690,7 +1689,7 @@ THREE.Vector3.prototype = {
   setZ: function(z) {
 
     // this.z = z;
-    this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, 2, z);
+    this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, 2, z);
 
     return this;
 
@@ -1699,7 +1698,7 @@ THREE.Vector3.prototype = {
   setComponent: function(index, value) {
 
     if (index >= 0 && index <= 2) {
-      this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, index, value);
+      this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, index, value);
     } else {
       throw new Error('index is out of range: ' + index);
     }
@@ -1709,7 +1708,7 @@ THREE.Vector3.prototype = {
   getComponent: function(index) {
 
     if (index >= 0 && index <= 2) {
-      return SIMD.Float32x4.extractLane(this.vector3d, index);
+      return window.SIMD.Float32x4.extractLane(this.vector3d, index);
     } else {
       throw new Error('index is out of range: ' + index);
     }
@@ -1721,7 +1720,7 @@ THREE.Vector3.prototype = {
     // this.x = v.x;
     // this.y = v.y;
     // this.z = v.z;
-    this.vector3d = SIMD.Float32x4(v.x, v.y, v.z);
+    this.vector3d = window.SIMD.Float32x4(v.x, v.y, v.z);
 
     return this;
 
@@ -1739,7 +1738,7 @@ THREE.Vector3.prototype = {
     // this.x += v.x;
     // this.y += v.y;
     // this.z += v.z;
-    this.vector3d = SIMD.Float32x4.add(this.vector3d, SIMD.Float32x4(v.x, v.y, v.z));
+    this.vector3d = window.SIMD.Float32x4.add(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
 
     return this;
 
@@ -1750,7 +1749,7 @@ THREE.Vector3.prototype = {
     // this.x += s;
     // this.y += s;
     // this.z += s;
-    this.vector3d = SIMD.Float32x4.add(this.vector3d, SIMD.Float32x4(s, s, s));
+    this.vector3d = window.SIMD.Float32x4.add(this.vector3d, window.SIMD.Float32x4(s, s, s));
 
     return this;
 
@@ -1761,7 +1760,7 @@ THREE.Vector3.prototype = {
     // this.x = a.x + b.x;
     // this.y = a.y + b.y;
     // this.z = a.z + b.z;
-    this.vector3d = SIMD.Float32x4.add(SIMD.Float32x4(a.x, a.y, a.z), SIMD.Float32x4(b.x, b.y, b.z));
+    this.vector3d = window.SIMD.Float32x4.add(window.SIMD.Float32x4(a.x, a.y, a.z), window.SIMD.Float32x4(b.x, b.y, b.z));
 
     return this;
 
@@ -1779,7 +1778,7 @@ THREE.Vector3.prototype = {
     // this.x -= v.x;
     // this.y -= v.y;
     // this.z -= v.z;
-    this.vector3d = SIMD.Float32x4.sub(this.vector3d, SIMD.Float32x4(v.x, v.y, v.z));
+    this.vector3d = window.SIMD.Float32x4.sub(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
 
     return this;
 
@@ -1790,7 +1789,7 @@ THREE.Vector3.prototype = {
     // this.x -= s;
     // this.y -= s;
     // this.z -= s;
-    this.vector3d = SIMD.Float32x4.sub(this.vector3d, SIMD.Float32x4(s, s, s));
+    this.vector3d = window.SIMD.Float32x4.sub(this.vector3d, window.SIMD.Float32x4(s, s, s));
 
     return this;
 
@@ -1801,7 +1800,7 @@ THREE.Vector3.prototype = {
     // this.x = a.x - b.x;
     // this.y = a.y - b.y;
     // this.z = a.z - b.z;
-    this.vector3d = SIMD.Float32x4.sub(SIMD.Float32x4(a.x, a.y, a.z), SIMD.Float32x4(b.x, b.y, b.z));
+    this.vector3d = window.SIMD.Float32x4.sub(window.SIMD.Float32x4(a.x, a.y, a.z), window.SIMD.Float32x4(b.x, b.y, b.z));
 
     return this;
 
@@ -1819,7 +1818,7 @@ THREE.Vector3.prototype = {
     // this.x *= v.x;
     // this.y *= v.y;
     // this.z *= v.z;
-    this.vector3d = SIMD.Float32x4.mul(this.vector3d, SIMD.Float32x4(v.x, v.y, v.z));
+    this.vector3d = window.SIMD.Float32x4.mul(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
 
     return this;
 
@@ -1830,7 +1829,7 @@ THREE.Vector3.prototype = {
     // this.x *= scalar;
     // this.y *= scalar;
     // this.z *= scalar;
-    this.vector3d = SIMD.Float32x4.mul(this.vector3d, SIMD.Float32x4(scalar, scalar, scalar));
+    this.vector3d = window.SIMD.Float32x4.mul(this.vector3d, window.SIMD.Float32x4(scalar, scalar, scalar));
 
     return this;
 
@@ -1841,7 +1840,7 @@ THREE.Vector3.prototype = {
     // this.x = a.x * b.x;
     // this.y = a.y * b.y;
     // this.z = a.z * b.z;
-    this.vector3d = SIMD.Float32x4.mul(SIMD.Float32x4(a.x, a.y, a.z), SIMD.Float32x4(b.x, b.y, b.z));
+    this.vector3d = window.SIMD.Float32x4.mul(window.SIMD.Float32x4(a.x, a.y, a.z), window.SIMD.Float32x4(b.x, b.y, b.z));
 
     return this;
 
@@ -1887,13 +1886,13 @@ THREE.Vector3.prototype = {
 
   applyMatrix3: function(m) {
 
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
-    // this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, 0, bla)
-    // this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, 1, bla)
-    // this.vector3d = SIMD.Float32x4.replaceLane(this.vector3d, 2, bla)
+    // this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, 0, bla)
+    // this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, 1, bla)
+    // this.vector3d = window.SIMD.Float32x4.replaceLane(this.vector3d, 2, bla)
 
     var e = m.elements;
 
@@ -1901,7 +1900,7 @@ THREE.Vector3.prototype = {
     var newY = e[1] * x + e[4] * y + e[7] * z;
     var newZ = e[2] * x + e[5] * y + e[8] * z;
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -1911,9 +1910,9 @@ THREE.Vector3.prototype = {
 
     // input: THREE.Matrix4 affine matrix
 
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     var e = m.elements;
 
@@ -1921,7 +1920,7 @@ THREE.Vector3.prototype = {
     var newY = e[1] * x + e[5] * y + e[9] * z + e[13];
     var newZ = e[2] * x + e[6] * y + e[10] * z + e[14];
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -1931,9 +1930,9 @@ THREE.Vector3.prototype = {
 
     // input: THREE.Matrix4 projection matrix
 
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     var e = m.elements;
     var d = 1 / (e[3] * x + e[7] * y + e[11] * z + e[15]); // perspective divide
@@ -1942,7 +1941,7 @@ THREE.Vector3.prototype = {
     var newY = (e[1] * x + e[5] * y + e[9] * z + e[13]) * d;
     var newZ = (e[2] * x + e[6] * y + e[10] * z + e[14]) * d;
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -1950,9 +1949,9 @@ THREE.Vector3.prototype = {
 
   applyQuaternion: function(q) {
 
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     var qx = q.x;
     var qy = q.y;
@@ -1972,7 +1971,7 @@ THREE.Vector3.prototype = {
     var newY = iy * qw + iw * -qy + iz * -qx - ix * -qz;
     var newZ = iz * qw + iw * -qz + ix * -qy - iy * -qx;
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -2013,9 +2012,9 @@ THREE.Vector3.prototype = {
     // input: THREE.Matrix4 affine matrix
     // vector interpreted as a direction
 
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     var e = m.elements;
 
@@ -2023,7 +2022,7 @@ THREE.Vector3.prototype = {
     var newY = e[1] * x + e[5] * y + e[9] * z;
     var newZ = e[2] * x + e[6] * y + e[10] * z;
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     this.normalize();
 
@@ -2033,7 +2032,7 @@ THREE.Vector3.prototype = {
 
   divide: function(v) {
 
-    this.vector3d = SIMD.Float32x4.div(this.vector3d, SIMD.Float32x4(v.x, v.y, v.z));
+    this.vector3d = window.SIMD.Float32x4.div(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
 
     return this;
 
@@ -2043,11 +2042,11 @@ THREE.Vector3.prototype = {
 
     if (scalar !== 0) {
 
-      this.vector3d = SIMD.Float32x4.div(this.vector3d, SIMD.Float32x4(scalar, scalar, scalar));
+      this.vector3d = window.SIMD.Float32x4.div(this.vector3d, window.SIMD.Float32x4(scalar, scalar, scalar));
 
     } else {
 
-      this.vector3d = SIMD.Float32x4(0, 0, 0);
+      this.vector3d = window.SIMD.Float32x4(0, 0, 0);
 
     }
 
@@ -2057,8 +2056,8 @@ THREE.Vector3.prototype = {
 
   min: function(v) {
 
-    v = SIMD.Float32x4(v.x, v.y, v.z);
-    this.vector3d = SIMD.Float32x4.minNum(this.vector3d, v);
+    v = window.SIMD.Float32x4(v.x, v.y, v.z);
+    this.vector3d = window.SIMD.Float32x4.minNum(this.vector3d, v);
 
     // if ( this.x > v.x ) {
     //
@@ -2084,8 +2083,8 @@ THREE.Vector3.prototype = {
 
   max: function(v) {
 
-    v = SIMD.Float32x4(v.x, v.y, v.z);
-    this.vector3d = SIMD.Float32x4.maxNum(this.vector3d, v);
+    v = window.SIMD.Float32x4(v.x, v.y, v.z);
+    this.vector3d = window.SIMD.Float32x4.maxNum(this.vector3d, v);
 
     // if ( this.x < v.x ) {
     //
@@ -2113,11 +2112,11 @@ THREE.Vector3.prototype = {
 
     // This function assumes min < max, if this assumption isn't true it will not operate correctly
 
-    var v_max = SIMD.Float32x4(max.x, max.y, max.z);
-    this.vector3d = SIMD.Float32x4.maxNum(this.vector3d, v_max);
+    var v_max = window.SIMD.Float32x4(max.x, max.y, max.z);
+    this.vector3d = window.SIMD.Float32x4.maxNum(this.vector3d, v_max);
 
-    var v_min = SIMD.Float32x4(min.x, min.y, min.z);
-    this.vector3d = SIMD.Float32x4.minNum(this.vector3d, v_min);
+    var v_min = window.SIMD.Float32x4(min.x, min.y, min.z);
+    this.vector3d = window.SIMD.Float32x4.minNum(this.vector3d, v_min);
 
     // if ( this.x < min.x ) {
     //
@@ -2235,9 +2234,9 @@ THREE.Vector3.prototype = {
 
     // return this.x * this.x + this.y * this.y + this.z * this.z;
     // square each value then sum it up
-    var squaredVector = SIMD.Float32x4.shiftLeftByScalar(this.vector3d, 1);
+    var squaredVector = window.SIMD.Float32x4.shiftLeftByScalar(this.vector3d, 1);
 
-    var extract = SIMD.Float32x4.extractLane;
+    var extract = window.SIMD.Float32x4.extractLane;
 
     return extract(squaredVector, 0) + extract(squaredVector, 1) + extract(squaredVector, 2);
 
@@ -2251,7 +2250,7 @@ THREE.Vector3.prototype = {
   },
 
   lengthManhattan: function() {
-    var extract = SIMD.Float32x4.extractLane;
+    var extract = window.SIMD.Float32x4.extractLane;
     var v3 = this.vector3d;
     return Math.abs(extract(v3, 0)) + Math.abs(extract(v3, 1)) + Math.abs(extract(v3, 2));
 
@@ -2281,10 +2280,10 @@ THREE.Vector3.prototype = {
     // this.x += ( v.x - this.x ) * alpha;
     // this.y += ( v.y - this.y ) * alpha;
     // this.z += ( v.z - this.z ) * alpha;
-    var v_alpha = SIMD.Float32x4(alpha, alpha, alpha);
-    v = SIMD.Float32x4(v.x, v.y, v.z);
-    this.vector3d = SIMD.Float32x4.mul(
-      SIMD.Float32x4.sub(v, this.vector3d),
+    var v_alpha = window.SIMD.Float32x4(alpha, alpha, alpha);
+    v = window.SIMD.Float32x4(v.x, v.y, v.z);
+    this.vector3d = window.SIMD.Float32x4.mul(
+      window.SIMD.Float32x4.sub(v, this.vector3d),
       v_alpha
     );
 
@@ -2310,15 +2309,15 @@ THREE.Vector3.prototype = {
     }
 
     // var x = this.x, y = this.y, z = this.z;
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     var newX = y * v.z - z * v.y;
     var newY = z * v.x - x * v.z;
     var newZ = x * v.y - y * v.x;
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -2337,7 +2336,7 @@ THREE.Vector3.prototype = {
     var newY = az * bx - ax * bz;
     var newZ = ax * by - ay * bx;
 
-    this.vector3d = SIMD.Float32x4(newX, newY, newZ);
+    this.vector3d = window.SIMD.Float32x4(newX, newY, newZ);
 
     return this;
 
@@ -2415,11 +2414,11 @@ THREE.Vector3.prototype = {
     // var dx = this.x - v.x;
     // var dy = this.y - v.y;
     // var dz = this.z - v.z;
-    var vector3d = SIMD.Float32x4.sub(this.vector3d, SIMD.Float32x4(v.x, v.y, v.z));
-    vector3d = SIMD.Float32x4.mul(vector3d, vector3d);
-    var sum = SIMD.Float32x4.extractLane(vector3d, 0) +
-      SIMD.Float32x4.extractLane(vector3d, 1) +
-      SIMD.Float32x4.extractLane(vector3d, 2);
+    var vector3d = window.SIMD.Float32x4.sub(this.vector3d, window.SIMD.Float32x4(v.x, v.y, v.z));
+    vector3d = window.SIMD.Float32x4.mul(vector3d, vector3d);
+    var sum = window.SIMD.Float32x4.extractLane(vector3d, 0) +
+      window.SIMD.Float32x4.extractLane(vector3d, 1) +
+      window.SIMD.Float32x4.extractLane(vector3d, 2);
 
     return sum;
 
@@ -2465,7 +2464,7 @@ THREE.Vector3.prototype = {
     // this.x = m.elements[ 12 ];
     // this.y = m.elements[ 13 ];
     // this.z = m.elements[ 14 ];
-    this.vector3d = SIMD.Float32x4(m.elements[12], m.elements[13], m.elements[14]);
+    this.vector3d = window.SIMD.Float32x4(m.elements[12], m.elements[13], m.elements[14]);
 
     return this;
 
@@ -2477,7 +2476,7 @@ THREE.Vector3.prototype = {
     var sy = this.set(m.elements[4], m.elements[5], m.elements[6]).length();
     var sz = this.set(m.elements[8], m.elements[9], m.elements[10]).length();
 
-    this.vector3d = SIMD.Float32x4(sx, sy, sz);
+    this.vector3d = window.SIMD.Float32x4(sx, sy, sz);
 
     return this;
   },
@@ -2492,16 +2491,16 @@ THREE.Vector3.prototype = {
     // this.y = me[ offset + 1 ];
     // this.z = me[ offset + 2 ];
 
-    this.vector3d = SIMD.Float32x4(me[offset], me[offset + 1], me[offset + 2]);
+    this.vector3d = window.SIMD.Float32x4(me[offset], me[offset + 1], me[offset + 2]);
 
     return this;
 
   },
 
   equals: function(v) {
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     return ((v.x === x) && (v.y === y) && (v.z === z));
 
@@ -2514,7 +2513,7 @@ THREE.Vector3.prototype = {
     // this.x = array[ offset ];
     // this.y = array[ offset + 1 ];
     // this.z = array[ offset + 2 ];
-    this.vector3d = SIMD.Float32x4(array[offset], array[offset + 1], array[offset + 2]);
+    this.vector3d = window.SIMD.Float32x4(array[offset], array[offset + 1], array[offset + 2]);
 
     return this;
 
@@ -2525,9 +2524,9 @@ THREE.Vector3.prototype = {
     if (array === undefined) array = [];
     if (offset === undefined) offset = 0;
 
-    array[offset] = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    array[offset + 1] = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    array[offset + 2] = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    array[offset] = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    array[offset + 1] = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    array[offset + 2] = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
 
     return array;
 
@@ -2542,19 +2541,19 @@ THREE.Vector3.prototype = {
     // this.x = attribute.array[ index ];
     // this.y = attribute.array[ index + 1 ];
     // this.z = attribute.array[ index + 2 ];
-    this.vector3d = SIMD.Float32x4(attribute.array[index], attribute.array[index + 1], attribute.array[index + 2]);
+    this.vector3d = window.SIMD.Float32x4(attribute.array[index], attribute.array[index + 1], attribute.array[index + 2]);
 
     return this;
 
   },
 
   clone: function() {
-    console.log(SIMD);
-    console.log(SIMD.Float32x4);
-    console.log(SIMD.Float32x4.extractLane);
-    var x = SIMD.Float32x4.extractLane(this.vector3d, 0);
-    var y = SIMD.Float32x4.extractLane(this.vector3d, 1);
-    var z = SIMD.Float32x4.extractLane(this.vector3d, 2);
+    console.log(window.SIMD);
+    console.log(window.SIMD.Float32x4);
+    console.log(window.SIMD.Float32x4.extractLane);
+    var x = window.SIMD.Float32x4.extractLane(this.vector3d, 0);
+    var y = window.SIMD.Float32x4.extractLane(this.vector3d, 1);
+    var z = window.SIMD.Float32x4.extractLane(this.vector3d, 2);
     return new THREE.Vector3(x, y, z);
 
   }
